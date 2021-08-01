@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:login_bank_flow/app/data/models/models.dart';
-import 'package:login_bank_flow/app/modules/login/widgets/key_button.dart';
+
+import 'key_button.dart';
 
 class KeyboardKeys extends StatelessWidget {
   final List<KeyModel> keys;

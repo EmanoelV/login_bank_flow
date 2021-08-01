@@ -6,7 +6,8 @@ import 'package:login_bank_flow/app/data/models/models.dart';
 import 'package:login_bank_flow/app/data/repostories/repositories.dart';
 
 class LoginController extends GetxController {
-  final ILoginRepository login = Get.put(GetxLoginRepository());
+  final ILoginRepository loginRepository = Get.put(GetxLoginRepository());
+  String cpf = "";
   var inputCpfEnabled = true.obs;
   var inputPasswordController = TextEditingController().obs;
   var loginButtonEnabled = false.obs;
@@ -21,9 +22,18 @@ class LoginController extends GetxController {
   }
 
   getKeys(String cpf) {
-    login.getKeys(cpf).then((value) {
+    loginRepository.getKeys(cpf).then((value) {
       keys.value = value;
+      this.cpf = cpf;
       inputCpfEnabled.value = false;
+    });
+  }
+
+  login() {
+    loginRepository
+        .login(cpf, inputPasswordController.value.text)
+        .then((value) {
+      Get.offAllNamed('/extract');
     });
   }
 }

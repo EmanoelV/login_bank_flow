@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:login_bank_flow/app/modules/login/login_controller.dart';
 
 import 'package:login_bank_flow/app/widgets/widgets.dart';
 
+import 'login_controller.dart';
 import 'widgets/widgets.dart';
 
 class LoginPage extends StatelessWidget {
@@ -50,8 +50,11 @@ class LoginPage extends StatelessWidget {
                   keyOnPressed: controller.keyOnPressed)),
               SizedBox(height: 16),
               Obx(() => ElevatedButton(
-                  onPressed:
-                      controller.loginButtonEnabled.isTrue ? () {} : null,
+                  onPressed: controller.loginButtonEnabled.isTrue
+                      ? () {
+                          controller.login();
+                        }
+                      : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Text('Entrar'),
