@@ -17,11 +17,11 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
             Icon(
               Icons.account_balance,
-              size: 100,
+              size: MediaQuery.of(context).size.height * .3,
               color: Theme.of(context).primaryColor,
             ),
             SizedBox(height: 16),
@@ -33,7 +33,14 @@ class LoginPage extends StatelessWidget {
               labelText: "Senha",
             ),
             SizedBox(height: 16),
-            KeyboardKeys(keys: _defaultKeys)
+            KeyboardKeys(keys: _defaultKeys),
+            SizedBox(height: 16),
+            ElevatedButton(
+                onPressed: () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text('Entrar'),
+                ))
           ],
         ),
       ),
