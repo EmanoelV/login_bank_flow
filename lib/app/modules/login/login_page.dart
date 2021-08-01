@@ -39,14 +39,15 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 16),
               Obx(() => Input(
                     labelText: "Senha",
-                    enabled: true,
-                    obscureText: false,
+                    enabled: false,
+                    obscureText: true,
                     controller: controller.inputPasswordController.value,
                   )),
               SizedBox(height: 16),
               Obx(() => KeyboardKeys(
                   // ignore: invalid_use_of_protected_member
                   keys: controller.keys.value,
+                  deleteAction: controller.deleteKey,
                   keyOnPressed: controller.keyOnPressed)),
               SizedBox(height: 16),
               Obx(() => ElevatedButton(

@@ -21,6 +21,15 @@ class LoginController extends GetxController {
       loginButtonEnabled.value = true;
   }
 
+  deleteKey() {
+    final currentText = inputPasswordController.value.text;
+    if (currentText.length > 0)
+      inputPasswordController.value.text =
+          currentText.substring(0, currentText.length - 1);
+    if (inputPasswordController.value.text.length < 8 &&
+        loginButtonEnabled.isTrue) loginButtonEnabled.value = false;
+  }
+
   getKeys(String cpf) {
     loginRepository.getKeys(cpf).then((value) {
       keys.value = value;

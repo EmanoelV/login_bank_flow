@@ -7,7 +7,9 @@ import 'key_button.dart';
 class KeyboardKeys extends StatelessWidget {
   final List<KeyModel> keys;
   final Function(String)? keyOnPressed;
-  KeyboardKeys({Key? key, required this.keys, this.keyOnPressed})
+  final Function()? deleteAction;
+  KeyboardKeys(
+      {Key? key, required this.keys, this.keyOnPressed, this.deleteAction})
       : super(key: key);
 
   String _buttonText(int index) =>
@@ -61,7 +63,9 @@ class KeyboardKeys extends StatelessWidget {
                     onPressed(keys[4].key);
                   })),
           SizedBox(width: 8),
-          Expanded(child: KeyButton(text: 'Limpar', onPressed: () {})),
+          Expanded(
+              child:
+                  KeyButton(text: 'Limpar', onPressed: deleteAction ?? () {})),
         ]),
       ],
     );
