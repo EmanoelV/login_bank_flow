@@ -12,9 +12,21 @@ class Input extends TextFormField {
   Input(
       {Function(String?)? onSaved,
       List<TextInputFormatter>? inputFormatters,
+      String? Function(String?)? validator,
+      TextInputType? keyboardType,
+      bool? enabled,
+      bool obscureText = false,
+      TextEditingController? controller,
+      Function(String)? onChange,
       String? labelText})
       : super(
             onSaved: onSaved,
+            obscureText: obscureText,
+            onChanged: onChange,
+            controller: controller,
+            enabled: enabled,
+            validator: validator,
+            keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             decoration: _decoration(labelText: labelText));
 }

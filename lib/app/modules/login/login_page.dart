@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:login_bank_flow/app/modules/login/login_controller.dart';
 
 import 'package:login_bank_flow/app/widgets/widgets.dart';
-import 'package:login_bank_flow/app/data/models/models.dart';
 
 import 'widgets/widgets.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  final List<KeyModel> _defaultKeys = List.generate(5,
-      (index) => KeyModel(key: 'default', values: ['$index', '${index + 1}']));
+  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,31 +17,47 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            Icon(
-              Icons.account_balance,
-              size: MediaQuery.of(context).size.height * .3,
-              color: Theme.of(context).primaryColor,
-            ),
-            SizedBox(height: 16),
-            Input(
-              labelText: "CPF",
-            ),
-            SizedBox(height: 16),
-            Input(
-              labelText: "Senha",
-            ),
-            SizedBox(height: 16),
-            KeyboardKeys(keys: _defaultKeys),
-            SizedBox(height: 16),
-            ElevatedButton(
-                onPressed: () {},
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text('Entrar'),
-                ))
-          ],
+        child: Form(
+          child: ListView(
+            children: [
+              Icon(
+                Icons.account_balance,
+                size: MediaQuery.of(context).size.height * .3,
+                color: Theme.of(context).primaryColor,
+              ),
+              SizedBox(height: 16),
+              Obx(() => Input(
+                    labelText: "CPF",
+                    onChange: (value) async {
+                      if (value.length == 11 && value.isCpf) {
+                        controller.getKeys(value);
+                      }
+                    },
+                    enabled: controller.inputCpfEnabled.isTrue,
+                    keyboardType: TextInputType.number,
+                  )),
+              SizedBox(height: 16),
+              Obx(() => Input(
+                    labelText: "Senha",
+                    enabled: false,
+                    obscureText: true,
+                    controller: controller.inputPasswordController.value,
+                  )),
+              SizedBox(height: 16),
+              Obx(() => KeyboardKeys(
+                  // ignore: invalid_use_of_protected_member
+                  keys: controller.keys.value,
+                  keyOnPressed: controller.keyOnPressed)),
+              SizedBox(height: 16),
+              Obx(() => ElevatedButton(
+                  onPressed:
+                      controller.loginButtonEnabled.isTrue ? () {} : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text('Entrar'),
+                  )))
+            ],
+          ),
         ),
       ),
     ));
