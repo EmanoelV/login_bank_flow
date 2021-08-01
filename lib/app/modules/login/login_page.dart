@@ -39,8 +39,8 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 16),
               Obx(() => Input(
                     labelText: "Senha",
-                    enabled: false,
-                    obscureText: true,
+                    enabled: true,
+                    obscureText: false,
                     controller: controller.inputPasswordController.value,
                   )),
               SizedBox(height: 16),

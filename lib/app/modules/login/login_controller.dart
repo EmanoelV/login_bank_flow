@@ -6,7 +6,7 @@ import 'package:login_bank_flow/app/data/models/models.dart';
 import 'package:login_bank_flow/app/data/repostories/repositories.dart';
 
 class LoginController extends GetxController {
-  final ILoginRepository login = DioLoginRepository();
+  final ILoginRepository login = Get.put(GetxLoginRepository());
   var inputCpfEnabled = true.obs;
   var inputPasswordController = TextEditingController().obs;
   var loginButtonEnabled = false.obs;

@@ -1,1 +1,1 @@
-export 'dio_login_repository.dart';
+export 'getx_login_repository.dart';
