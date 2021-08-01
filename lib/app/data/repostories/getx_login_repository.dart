@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'package:login_bank_flow/app/core/constants.dart';
 import 'package:login_bank_flow/app/core/interfaces/interfaces.dart';
+import 'package:login_bank_flow/app/core/utils/headers.dart';
 
 import '../models/models.dart';
 
@@ -9,6 +10,7 @@ class GetxLoginRepository extends GetConnect implements ILoginRepository {
   @override
   void onInit() {
     httpClient.baseUrl = Constants.baseUrl;
+    httpClient.addRequestModifier(Headers.defaultHeader);
     super.onInit();
   }
 
