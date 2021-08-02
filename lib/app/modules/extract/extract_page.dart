@@ -18,6 +18,7 @@ class ExtractPage extends StatelessWidget {
         body: Obx(() {
           var transactions = controller.transactions;
           return ListView.builder(
+              physics: BouncingScrollPhysics(),
               padding: EdgeInsets.all(8),
               controller: controller.scrollController,
               itemCount: transactions.length + 1,
