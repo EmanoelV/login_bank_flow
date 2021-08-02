@@ -26,7 +26,8 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 16),
             Obx(() => Input(
                   labelText: "CPF",
-                  onChange: (value) async {
+                  controller: controller.inputCpfController.value,
+                  onChange: (value) {
                     if (value.length == 11 && value.isCpf) {
                       controller.getKeys(value);
                     }

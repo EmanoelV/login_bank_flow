@@ -7,10 +7,10 @@ import 'package:login_bank_flow/app/data/repostories/repositories.dart';
 
 class LoginController extends GetxController {
   final ILoginRepository loginRepository = Get.put(GetxLoginRepository());
-  String cpf = "";
   var loadingLogin = false.obs;
   var inputCpfEnabled = true.obs;
   var inputPasswordController = TextEditingController().obs;
+  var inputCpfController = TextEditingController().obs;
   var loginButtonEnabled = false.obs;
   var keys = List.generate(
       5, (index) => KeyModel(key: 'X', values: ['$index', '${index + 1}'])).obs;
@@ -34,17 +34,37 @@ class LoginController extends GetxController {
   getKeys(String cpf) {
     loginRepository.getKeys(cpf).then((value) {
       keys.value = value;
-      this.cpf = cpf;
       inputCpfEnabled.value = false;
     });
+  }
+
+  _resetValues() {
+    loadingLogin.value = false;
+    inputCpfEnabled.value = true;
+    loginButtonEnabled.value = false;
+    inputCpfController.value.text = "";
+    inputPasswordController.value.text = "";
+    keys.value = List.generate(
+        5, (index) => KeyModel(key: 'X', values: ['$index', '${index + 1}']));
   }
 
   login() {
     loadingLogin.value = true;
     loginRepository
-        .login(cpf, inputPasswordController.value.text)
+        .login(
+            inputCpfController.value.text, inputPasswordController.value.text)
         .then((value) {
+      Get.put(
+          LoginModel(
+              token: value.token,
+              codigo: value.codigo,
+              refreshToken: value.refreshToken),
+          permanent: true);
       Get.offAllNamed('/extract', arguments: value);
+    }).catchError((error) {
+      Get.snackbar(
+          "Erro", "Houve um erro, verifique sua conexão e tente novamente");
+      _resetValues();
     });
   }
 }
