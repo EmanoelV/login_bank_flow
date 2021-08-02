@@ -1,3 +1,4 @@
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,8 @@ class LoginController extends GetxController {
   var loadingLogin = false.obs;
   var inputCpfEnabled = true.obs;
   var inputPasswordController = TextEditingController().obs;
+  var cpfMask = MaskTextInputFormatter(
+      mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
   var inputCpfController = TextEditingController().obs;
   var loginButtonEnabled = false.obs;
   var keys = List.generate(
@@ -32,10 +35,13 @@ class LoginController extends GetxController {
   }
 
   getKeys(String cpf) {
-    loginRepository.getKeys(cpf).then((value) {
-      keys.value = value;
-      inputCpfEnabled.value = false;
-    });
+    cpf = cpfMask.unmaskText(cpf);
+    if (cpf.length == 11 && cpf.isCpf) {
+      loginRepository.getKeys(cpf).then((value) {
+        keys.value = value;
+        inputCpfEnabled.value = false;
+      });
+    }
   }
 
   _resetValues() {
@@ -51,8 +57,7 @@ class LoginController extends GetxController {
   login() {
     loadingLogin.value = true;
     loginRepository
-        .login(
-            inputCpfController.value.text, inputPasswordController.value.text)
+        .login(cpfMask.getUnmaskedText(), inputPasswordController.value.text)
         .then((value) {
       Get.put(
           LoginModel(
