@@ -36,12 +36,14 @@ class LoginController extends GetxController {
 
   getKeys(String cpf) {
     cpf = cpfMask.unmaskText(cpf);
-    if (cpf.length == 11 && cpf.isCpf) {
+    if (cpf.isCpf) {
       loginRepository.getKeys(cpf).then((value) {
         keys.value = value;
         inputCpfEnabled.value = false;
       });
-    }
+    } else if (cpf.length == 11)
+      Get.snackbar("CPF Inválido",
+          "Por favor, digite um cpf válido e que esteja registrado");
   }
 
   _resetValues() {
