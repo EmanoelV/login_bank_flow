@@ -28,7 +28,7 @@ class GetxExtractRepository extends GetConnect implements IExtractRepository {
       required String code,
       required String indexPage}) async {
     final response = await get(
-        "/v1/Extrato/Periodo?dataInicial=$initialDate&dataFinal=$endDate&pageSize=30&page=0&codigoConta=$code");
+        "/v1/Extrato/Periodo?dataInicial=$initialDate&dataFinal=$endDate&pageSize=30&page=$indexPage&codigoConta=$code");
     final data = response.body['data'] as List;
     return data.map((e) => TransactionModel.fromJson(e)).toList();
   }
