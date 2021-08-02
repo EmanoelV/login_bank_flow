@@ -13,57 +13,62 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: ListView(
-            children: [
-              Icon(
-                Icons.account_balance,
-                size: MediaQuery.of(context).size.height * .3,
-                color: Theme.of(context).primaryColor,
-              ),
-              SizedBox(height: 16),
-              Obx(() => Input(
-                    labelText: "CPF",
-                    onChange: (value) async {
-                      if (value.length == 11 && value.isCpf) {
-                        controller.getKeys(value);
+    var loginPageWidget = Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        child: ListView(
+          children: [
+            Icon(
+              Icons.account_balance,
+              size: MediaQuery.of(context).size.height * .3,
+              color: Theme.of(context).primaryColor,
+            ),
+            SizedBox(height: 16),
+            Obx(() => Input(
+                  labelText: "CPF",
+                  onChange: (value) async {
+                    if (value.length == 11 && value.isCpf) {
+                      controller.getKeys(value);
+                    }
+                  },
+                  enabled: controller.inputCpfEnabled.isTrue,
+                  keyboardType: TextInputType.number,
+                )),
+            SizedBox(height: 16),
+            Obx(() => Input(
+                  labelText: "Senha",
+                  enabled: false,
+                  obscureText: true,
+                  controller: controller.inputPasswordController.value,
+                )),
+            SizedBox(height: 16),
+            Obx(() => KeyboardKeys(
+                // ignore: invalid_use_of_protected_member
+                keys: controller.keys.value,
+                deleteAction: controller.deleteKey,
+                keyOnPressed: controller.keyOnPressed)),
+            SizedBox(height: 16),
+            Obx(() => ElevatedButton(
+                onPressed: controller.loginButtonEnabled.isTrue
+                    ? () {
+                        controller.login();
                       }
-                    },
-                    enabled: controller.inputCpfEnabled.isTrue,
-                    keyboardType: TextInputType.number,
-                  )),
-              SizedBox(height: 16),
-              Obx(() => Input(
-                    labelText: "Senha",
-                    enabled: false,
-                    obscureText: true,
-                    controller: controller.inputPasswordController.value,
-                  )),
-              SizedBox(height: 16),
-              Obx(() => KeyboardKeys(
-                  // ignore: invalid_use_of_protected_member
-                  keys: controller.keys.value,
-                  deleteAction: controller.deleteKey,
-                  keyOnPressed: controller.keyOnPressed)),
-              SizedBox(height: 16),
-              Obx(() => ElevatedButton(
-                  onPressed: controller.loginButtonEnabled.isTrue
-                      ? () {
-                          controller.login();
-                        }
-                      : null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Entrar'),
-                  )))
-            ],
-          ),
+                    : null,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text('Entrar'),
+                )))
+          ],
         ),
       ),
+    );
+    return Scaffold(
+        body: SafeArea(
+      child: Obx(() => controller.loadingLogin.isTrue
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : loginPageWidget),
     ));
   }
 }

@@ -8,6 +8,7 @@ import 'package:login_bank_flow/app/data/repostories/repositories.dart';
 class LoginController extends GetxController {
   final ILoginRepository loginRepository = Get.put(GetxLoginRepository());
   String cpf = "";
+  var loadingLogin = false.obs;
   var inputCpfEnabled = true.obs;
   var inputPasswordController = TextEditingController().obs;
   var loginButtonEnabled = false.obs;
@@ -39,10 +40,11 @@ class LoginController extends GetxController {
   }
 
   login() {
+    loadingLogin.value = true;
     loginRepository
         .login(cpf, inputPasswordController.value.text)
         .then((value) {
-      Get.offAllNamed('/extract');
+      Get.offAllNamed('/extract', arguments: value);
     });
   }
 }
